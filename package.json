@@ -1,0 +1,34 @@
+{
+  "name": "project-hack-fs-2022",
+  "version": "0.0.1",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "postinstall": "concurrently -c magenta,cyan -n dapplet,overlay \"npm run install:dapplet\" \"npm run install:overlay\"",
+    "install:dapplet": "cd dapplet && npm i",
+    "install:overlay": "cd overlay && npm i",
+    "start": "concurrently -arc magenta,cyan -n dapplet,overlay \"npm run start:dapplet\" \"npm run start:overlay\"",
+    "start:dapplet": "cd dapplet && npm start",
+    "start:overlay": "cd overlay && npm start",
+    "prettier": "npx prettier --write ."
+  },
+  "cacheDirectories": [
+    "dapplet/node_modules",
+    "overlay/node_modules"
+  ],
+  "author": "Dapplets Project",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^6.5.1",
+    "prettier": "2.2.1"
+  },
+  "bugs": {
+    "url": "https://github.com/dapplets/dapplets-eth-example/issues"
+  },
+  "homepage": "https://github.com/dapplets/dapplets-eth-example#readme",
+  "dependencies": {
+    "@dapplets/dapplet-overlay-bridge": "^0.1.3",
+    "ethers": "^5.6.9",
+    "near-api-js": "^0.44.2"
+  }
+}
