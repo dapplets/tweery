@@ -1,0 +1,306 @@
+@import '../../assets/styles/fonts.scss';
+@import '../../assets/styles/color.variables.scss';
+
+.wrapperDisconnect {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 20px;
+}
+.logoutBlock {
+  display: flex;
+  width: 100%;
+}
+.bgline_top {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='450' height='10' viewBox='0 0 450 10' fill='none'%3E%3Crect y='4' width='450' height='2' fill='white'/%3E%3Crect y='4' width='32' height='6' fill='white'/%3E%3Crect x='418' width='32' height='6' fill='white'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.bgline_medium {
+  position: absolute;
+  top: 230px;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='450' height='10' viewBox='0 0 450 10' fill='none'%3E%3Crect width='450' height='2' transform='matrix(1 0 0 -1 0 6)' fill='%233C3B40'/%3E%3Crect width='32' height='6' transform='matrix(1 0 0 -1 0 6)' fill='%233C3B40'/%3E%3Crect width='32' height='6' transform='matrix(1 0 0 -1 418 10)' fill='%233C3B40'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.name {
+  display: flex;
+  justify-content: flex-start;
+  padding: 28px 0px 28px 20px;
+  width: 70%;
+  border-right: 2px solid $Text;
+}
+.nameText {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 100%;
+  color: $PureWhite;
+}
+
+.buttonLogout {
+  display: flex;
+  width: 30%;
+  justify-content: flex-start;
+  padding: 0px 0px 0px 20px;
+  align-items: center;
+  background: inherit;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 100%;
+  text-transform: uppercase;
+  color: $Text;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='20' viewBox='0 0 19 20' fill='none'%3E%3Crect x='13.9861' y='4.98596' width='1.18182' height='13' transform='rotate(45 13.9861 4.98596)' fill='%233C3B40'/%3E%3Crect x='14.8217' y='14.1784' width='1.18182' height='13' transform='rotate(135 14.8217 14.1784)' fill='%233C3B40'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 19px 19px;
+  background-position: 80% 50%;
+  transition: all ease 0.5s;
+  &:hover {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='20' viewBox='0 0 19 20' fill='none'%3E%3Crect x='13.9861' y='4.98596' width='1.18182' height='13' transform='rotate(45 13.9861 4.98596)' fill='%23D7422E'/%3E%3Crect x='14.8217' y='14.1784' width='1.18182' height='13' transform='rotate(135 14.8217 14.1784)' fill='%23D7422E'/%3E%3C/svg%3E");
+
+    transition: all ease 0.5s;
+    color: #d7422e;
+  }
+}
+.writeTweetWrapper {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  padding-top: 18px;
+  justify-content: space-between;
+}
+.writeTweet {
+  resize: none;
+  background: $MainBlack;
+  border: 1px solid #3c3b40;
+  width: 85%;
+  height: 120px;
+  padding: 10px;
+  font-weight: 400;
+font-size: 16px;
+line-height: 100%;
+transition: all 0.3s ease;
+color: $PureWhite;
+  ::placeholder {
+    font-size: 18px;
+    line-height: 100%;
+    color: $Text;
+  }
+  &::-webkit-input-placeholder {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+  &::-moz-placeholder {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+  &:-moz-placeholder {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+  &:-ms-input-placeholder {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+  &:focus::-webkit-input-placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  &:focus::-moz-placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  &:focus:-moz-placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  &:focus:-ms-input-placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  &:focus{
+    transition: all 0.3s ease;
+    background: #1D1D1D;
+border: 1px solid #FFFFFF;
+  }
+}
+.sendTweet {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 121px;
+  width: 13%;
+  background: $MainBlack;
+  border: 1px solid $Text;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22' fill='none'%3E%3Cpath d='M21 1L14 21L10 12L1 8L21 1Z' stroke='%233C3B40' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  // transition: all 0.3s ease;
+  &:hover{
+    background: $MainBlack linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(15, 77, 137, 0.2) 100%) ;
+    // transition: all 0.3s ease;
+    border: 1px solid $PureWhite;
+   position: relative;
+   &::before{
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 25%;
+    width: 22px;
+    height: 22px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22' fill='none'%3E%3Cpath d='M21 1L14 21L10 12L1 8L21 1Z' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    // transition: all 0.3s ease;
+   }
+  }
+}
+.buttonSendFocus{
+  background: #1D1D1D;
+  border: 1px solid $PureWhite;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22' fill='none'%3E%3Cpath d='M21 1L14 21L10 12L1 8L21 1Z' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+    background-position: center;
+  // transition: all 0.3s ease;
+}
+
+.tweetsBlock {
+  width: 100%;
+  padding-top: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 0 auto;
+}
+.tweetTitle {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 100%;
+  text-transform: uppercase;
+  padding: 0px 0px 0px 42px;
+  color: #ffffff;
+  width: 100%;
+}
+.tweetTitleLine {
+  display: inline-block;
+  width: 135px;
+  height: 2px;
+
+  background: $Text;
+  margin-left: 10px;
+}
+
+.itemWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  border: 1px solid #3c3b40;
+  margin-top: 10px;
+  width: 90%;
+}
+
+.label {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 100%;
+  color: #4e515e;
+  padding-bottom: 10px;
+}
+.desription {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 129%;
+  color: $TweetText;
+  padding-bottom: 10px;
+}
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 70%;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
+  color: $Text;
+}
+.delimeterLine {
+  width: 100%;
+  height: 1px;
+  background: $Text;
+  margin-bottom: 10px;
+}
+.delimeterDotted {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  background: $Text;
+}
+.time {
+}
+.date {
+}
+.ipfs {
+}
+
+.footer {
+  display: flex;
+  width: 90%;
+  padding: 7.5px 23px;
+  border: 2px solid $Text;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
+  text-transform: uppercase;
+  align-items: center;
+  justify-content: space-between;
+}
+.counterBlock {
+  display: flex;
+  justify-content: space-between;
+  width: 49%;
+  align-items: center;
+  color: #a09fa4;
+  padding-right: 10px;
+}
+.footerDelimeter {
+  display: inline-block;
+  width: 1px;
+  height: 14px;
+  background: $Text;
+}
+.connectionBlock {
+  display: flex;
+  justify-content: space-between;
+  width: 49%;
+  align-items: center;
+  color: $Text;
+  padding-left: 10px;
+}
+.connection {
+}
+.connectionStatus {
+  display: flex;
+  align-items: center;
+}
+.connectionStatusLabel {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: $Stable;
+  margin-left: 4px;
+  border-radius: 50%;
+}

@@ -3,10 +3,10 @@
   "branch": "default",
   "version": { "$ref": "package.json#/version" },
   "type": "FEATURE",
-  "title": "Project HackFS-2022",
+  "title": "/tweery",
   "description": { "$ref": "package.json#/description" },
   "main": { "$ref": "package.json#/main" },
-  "icon": "",
+  "icon": "src/icons/test_dap.png",
   "contextIds": ["twitter-adapter.dapplet-base.eth"],
   "config": {
     "schema": "config/schema.json",

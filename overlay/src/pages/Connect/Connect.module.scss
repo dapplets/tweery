@@ -1,0 +1,164 @@
+@import '../../assets/styles/fonts.scss';
+@import '../../assets/styles/color.variables.scss';
+.wrapperConnect {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 1;
+  position: relative;
+}
+.bg_line_top {
+  position: absolute;
+  left: 5%;
+  width: 90%;
+  height: 5px;
+  top: 2%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='416' height='5' viewBox='0 0 416 5' fill='none'%3E%3Crect width='416' height='2' transform='matrix(1 0 0 -1 0 2)' fill='%233C3B40'/%3E%3Crect width='2' height='5' transform='matrix(1 0 0 -1 0 5)' fill='%233C3B40'/%3E%3Crect width='2' height='5' transform='matrix(1 0 0 -1 46 5)' fill='%233C3B40'/%3E%3Crect width='2' height='5' transform='matrix(1 0 0 -1 92 5)' fill='%233C3B40'/%3E%3Crect width='2' height='5' transform='matrix(1 0 0 -1 138 5)' fill='%233C3B40'/%3E%3Crect width='2' height='5' transform='matrix(1 0 0 -1 184 5)' fill='%233C3B40'/%3E%3Crect width='2' height='5' transform='matrix(1 0 0 -1 230 5)' fill='%233C3B40'/%3E%3Crect width='2' height='5' transform='matrix(1 0 0 -1 276 5)' fill='%233C3B40'/%3E%3Crect width='2' height='5' transform='matrix(1 0 0 -1 322 5)' fill='%233C3B40'/%3E%3Crect width='2' height='5' transform='matrix(1 0 0 -1 414 5)' fill='%233C3B40'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.bg_line_bottom {
+  position: absolute;
+  left: 5%;
+  width: 90%;
+  height: 5px;
+  bottom: 2%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='416' height='5' viewBox='0 0 416 5' fill='none'%3E%3Crect y='3' width='416' height='2' fill='%233C3B40'/%3E%3Crect width='2' height='5' fill='%233C3B40'/%3E%3Crect x='46' width='2' height='5' fill='%233C3B40'/%3E%3Crect x='92' width='2' height='5' fill='%233C3B40'/%3E%3Crect x='138' width='2' height='5' fill='%233C3B40'/%3E%3Crect x='184' width='2' height='5' fill='%233C3B40'/%3E%3Crect x='230' width='2' height='5' fill='%233C3B40'/%3E%3Crect x='276' width='2' height='5' fill='%233C3B40'/%3E%3Crect x='322' width='2' height='5' fill='%233C3B40'/%3E%3Crect x='414' width='2' height='5' fill='%233C3B40'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.15;
+  background-image: url('../../assets/images/bg_1.png'), url('../../assets/images/bg_2.png'),
+    url('../../assets/images/bg_3.png');
+  background-repeat: no-repeat;
+
+  background-size: 100% 100%, 60% 40%, 70% 40%;
+  background-position: -10px -30px, 115% 90%, 70% 0%;
+}
+.bg_line_left {
+  position: absolute;
+
+  height: 96%;
+  width: 2px;
+  right: 15%;
+  top: 2%;
+  background: $Text;
+  z-index: 1;
+}
+.bg_line_few {
+  position: absolute;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+  height: 64px;
+  right: -12%;
+  top: 69%;
+
+  z-index: -1;
+  span {
+    height: 2px;
+    display: inline-block;
+    background: $Text;
+    width: 100px;
+  }
+}
+.bg_line_single {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+  height: 2px;
+  left: 0%;
+  top: 73%;
+  z-index: -1;
+  background: $Text;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 72px;
+  color: $Label;
+  line-height: 100%;
+  margin-bottom: 73px;
+  z-index: 1;
+}
+
+.message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
+  margin-bottom: 73px;
+  height: 130px;
+  padding: 0px 30px;
+  background: $Bg;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='424' height='136' viewBox='0 0 424 136' fill='none'%3E%3Cpath d='M423 109.5V26L398 1H26L1 26V109.5L26 134.5H398L423 109.5Z' fill='%2316151A' stroke='%233C3B40' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 3;
+}
+
+.messageText {
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 149%;
+  text-transform: uppercase;
+  z-index: 3;
+}
+
+.buttonLogin {
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+
+  background: $Bg;
+  width: 140px;
+  height: 140px;
+  font-weight: 700;
+  font-size: 18px;
+  color: $PureWhite;
+  text-transform: uppercase;
+  position: relative;
+}
+.buttonLabel {
+  display: inline-block;
+  border: 1px solid $PureWhite;
+  width: 140px;
+  height: 140px;
+  position: absolute;
+  border-radius: 50%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='36' viewBox='0 0 44 36' fill='none'%3E%3Cpath d='M43.4003 33.183C34.7747 30.8717 26.6888 26.8842 19.6042 21.448C12.5197 16.0119 6.57522 9.23351 2.11027 1.5' stroke='white' stroke-width='4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 8px 100%;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+
+}
+.isHover{
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='126' height='41' viewBox='0 0 126 41' fill='none'%3E%3Cpath d='M2.41159 39.1286C8.10496 27.9547 16.7774 18.5729 27.4701 12.0204C38.1629 5.46786 50.4593 1.9999 63.0001 1.9999C75.5408 1.9999 87.8372 5.46786 98.53 12.0204C109.223 18.5729 117.895 27.9547 123.589 39.1286' stroke='white' stroke-width='4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 6px 0%;
+}
+.isHoverButton{
+  background: #16151A linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(15, 77, 137, 0.2) 100%);
+  transition: 0.5s ease all;
+}
+.isActiveButton{
+  background: #16151A linear-gradient(0deg, rgba(46,184,215,0.1) 0%, rgba(15,77,137,0.2) 59%);
+}
