@@ -24,11 +24,11 @@ export class StorageController
   }
 
   async get(
-    { body }: Request,
+    { query }: Request,
     res: Response,
     next: NextFunction,
   ): Promise<void> {
-    const value = await this.repository.get(body.key);
+    const value = await this.repository.get(query.key as string);
 
     if (value === null) {
       return next(new HTTPError(422, "There is no such field", "STORAGE"));
