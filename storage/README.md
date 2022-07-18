@@ -51,12 +51,8 @@ JSON: {
 
 ### GET
 
-To `GET` the value by sending _JSON_, where **key** is the key for the value
+To `GET` a request, send the query parameter **key**
 
 ```
-CURL GET http://localhost:8000/
-
-JSON: {
-  "key": "4"
-  }
+CURL GET http://localhost:8000/?key=4
 ```
