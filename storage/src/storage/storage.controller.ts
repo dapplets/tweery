@@ -42,14 +42,6 @@ export class StorageController
     res: Response,
     next: NextFunction,
   ): Promise<void> {
-    const value = await this.repository.get(body.key);
-
-    if (value !== null && body.value === value) {
-      return next(
-        new HTTPError(422, "The field and value already exist", "STORAGE"),
-      );
-    }
-
     this.repository.set(body.key, body.value);
     res.status(200).send(body);
   }
