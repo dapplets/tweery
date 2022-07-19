@@ -1,7 +1,7 @@
 import {} from '@dapplets/dapplet-extension';
 import test_button_save_icon from './icons/test_dap_2.svg';
 import test_button_get_icon from './icons/test_dap.svg';
-import test from './icons/test_dap.png'
+import test from './icons/test_dap.png';
 import ABI from './ABI';
 
 interface IStorage {
@@ -30,7 +30,8 @@ export default class TwitterFeature {
     });
 
     const prevSessions = await Core.sessions();
-
+    const ipfsGateway = 'https://ipfs.kaleido.art';
+   
     const prevSession = prevSessions.find((x) => x.authMethod === 'ethereum/goerli');
     if (prevSession) {
       const wallet = await prevSession.wallet();
@@ -72,101 +73,120 @@ export default class TwitterFeature {
 
     Core.onAction(() => overlay.open());
 
-    const { box, button , text, } = this.adapter.exports;
-  
-  
-    const Visible = function (target) {
-
+    const {  text } = this.adapter.exports;
+let userImg
+let userId
+let userText
+let userTextRetweet
+    const Visible = async  (target)=> {
       const targetPosition = {
           top: window.pageYOffset + target.el.getBoundingClientRect().top,
-          bottom: window.pageYOffset + target.el.getBoundingClientRect().bottom
+          bottom: window.pageYOffset + target.el.getBoundingClientRect().bottom,
         },
-
         windowPosition = {
           top: window.pageYOffset,
-          bottom: window.pageYOffset + document.documentElement.clientHeight
+          bottom: window.pageYOffset + document.documentElement.clientHeight,
         };
-    
-      if (targetPosition.bottom > windowPosition.top && 
-        targetPosition.top < windowPosition.bottom ) { 
-       
-        localStorage.setItem(target.id, JSON.stringify(target));
+
+      if (
+        targetPosition.bottom > windowPosition.top &&
+        targetPosition.top < windowPosition.bottom
+      ) {
       
-        const getTweet = JSON.parse(localStorage.getItem(target.id))
         
-      } else {
-    return
+        localStorage.setItem(target.id, JSON.stringify(target));
+
+        const getTweet = localStorage.getItem(target.id)
+        const json = JSON.stringify(getTweet)
+        // console.log(json,'json');
+        const blob = new Blob([json])
+        // console.log(blob,'blob');
+        const response = await fetch('https://ipfs.kaleido.art/ipfs/', {
+      method: 'POST',
+      body: blob,
+    })
+
+
+   const cid = response.headers.get('ipfs-hash')
+   const resp2 = await fetch('https://ipfs.kaleido.art/ipfs/' + cid)
+  //  console.log('cid', cid)
      
-      };
+        const json2 = await resp2.text()
+        const tweet2 = JSON.parse(json2)
+        const tweetObj = JSON.parse(tweet2)
+        // userId = tweetObj.id
+        // userText = tweetObj.text
+        // if(!userId || !userText){
+        //   return
+        // }
+        // console.log(userId);
+        // console.log(userText);
+        // console.log(json2,'json2');
+       
+        console.log(tweetObj,'t');
+     
+      } else {
+        return;
+      }
     };
-  
+
     this.adapter.attachConfig({
       POST: async (ctx) => [
-        box({
+        // box({
+        //   initial: 'DEFAULT',
+        //   DEFAULT: {
+        //     width: '60%',
+        //     hidden: true,
+
+        //     position: 'bottom',
+        //     text: '',
+        //     init: async (ctx, me) => {
+        //       const Tweet = ctx;
+           
+        //       console.log(Tweet);
+        //       document.addEventListener('scroll', function () {
+        //         Visible(ctx);
+        //       });
+        //       return function () {
+        //         document.removeEventListener('scroll', function () {
+        //           Visible(ctx);
+        //         });
+        //       };
+        //     },
+        //     exec: async (ctx, me) => {},
+        //   },
+        // }),
+        text({
           initial: 'DEFAULT',
           DEFAULT: {
-            width: '60%',
             hidden: true,
+            text: 'Text',
+            // replace:'This Tweet was deleted by the Tweet author',
            
-            position: 'bottom',
-            text: '',
             init: async (ctx, me) => {
+me.hidden = false
+// me.text= 'lala'
+me.replace='test2'
             
-              const Tweet = ctx;
-              if (Tweet.el.innerText.includes('his Tweet was deleted by the Tweet author. Learn more')){
-              
-                console.log(Tweet);
-               
-              }else{
-                return
-              }
+
+const user = userId
+            
               document.addEventListener('scroll', function() {
                 Visible (ctx);
+              
               });
               return function () {
                 document.removeEventListener('scroll', function() {
                   Visible (ctx);
                 });
               };
-            
 
             },
             exec: async (ctx, me) => {
-             
+
             },
           },
         }),
-        // text({
-        //   initial: 'DEFAULT',
-        //   DEFAULT: {
-        //     hidden: true,
-        //     text: '',
-        //     init: async (ctx, me) => {
-            
-        //       const Tweet = ctx;
-        //       if (Tweet.el.innerText.includes('his Tweet was deleted by the Tweet author. Learn more')){
-              
-        //         console.log(Tweet);
-               
-        //       }else{
-        //         return
-        //       }
-        //       document.addEventListener('scroll', function() {
-        //         Visible (ctx);
-        //       });
-        //       return function () {
-        //         document.removeEventListener('scroll', function() {
-        //           Visible (ctx);
-        //         });
-        //       };
-            
-
-        //     },
-        //     exec: async (ctx, me) => {
-             
-        //     },
-        //   },
-        // }),
       ],
     });
   }
