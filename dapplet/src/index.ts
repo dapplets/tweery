@@ -76,7 +76,7 @@ export default class TwitterFeature {
     const { text } = this.adapter.exports;
     let userParams;
 
-    const Visible = async (target) => {
+    const Visible = async (target,me) => {
       const targetPosition = {
           top: window.pageYOffset + target.el.getBoundingClientRect().top,
           bottom: window.pageYOffset + target.el.getBoundingClientRect().bottom,
@@ -90,11 +90,17 @@ export default class TwitterFeature {
         targetPosition.bottom > windowPosition.top &&
         targetPosition.top < windowPosition.bottom
       ) {
-        localStorage.setItem(target.id, JSON.stringify(target));
+        const newTweet = JSON.parse(localStorage.getItem(target.id))
+        if(newTweet === null){
+          localStorage.setItem(target.id, JSON.stringify(target));
+        }
+        
 
         const getTweet = localStorage.getItem(target.id);
+        // console.log(getTweet);
+        // const x = JSON.stringify(getTweet)
         const json = JSON.stringify(getTweet);
-        // console.log(json,'json');
+       
         const blob = new Blob([json]);
         // console.log(blob,'blob');
         const response = await fetch('https://ipfs.kaleido.art/ipfs/', {
@@ -103,25 +109,40 @@ export default class TwitterFeature {
         });
 
         const cid = response.headers.get('ipfs-hash');
+        
         const resp2 = await fetch('https://ipfs.kaleido.art/ipfs/' + cid);
-        //  console.log('cid', cid)
-
         const json2 = await resp2.text();
         const tweet2 = JSON.parse(json2);
         const tweetObj = JSON.parse(tweet2);
 
-        // userText = tweetObj.text
+       
         if (!tweetObj) {
           return;
         }
-        userParams = tweetObj;
-        userParams['cidRetweet'] = cid
-       await newVisible(userParams.cidRetweet)
+        if(tweetObj.id === target.id){
+          userParams = tweetObj;
+        userParams['cidRetweet'] = cid 
+        console.log(userParams,'t');
+        me.replace= 'This Tweet was deleted by the Tweet author'
+        if(userParams.innerTextRetweet){
+ me.innerText = userParams.innerTextRetweet
+ me.hidden = false
+        }
+        if(userParams.imgRetweet){
+          me.img = userParams.imgRetweet 
+          me.hidden = false
+                 }
+    
+                
+        }
+              
+    
+      //  await newVisible(userParams.cidRetweet)
         // console.log(userId);
         // console.log(userText);
         // console.log(json2,'json2');
 
-        // console.log(userParams,'t');
+       
       } else {
         return;
       }
@@ -150,7 +171,7 @@ x = tweetObj
           initial: 'DEFAULT',
           DEFAULT: {
             hidden: true,
-            text: 'Text',
+            text: '',
             replace: 'This Tweet was deleted by the Tweet author',
             img: test,
             innerText : 'tweery',
@@ -158,21 +179,32 @@ x = tweetObj
             
 
               document.addEventListener('scroll', function  () {
-                Visible(ctx);
-              
-                
+                Visible(ctx,me);
+        
               });
-              if (!userParams) {
-                return;
-              } else {
-              // await  newVisible(userParams.cidRetweet)
-                 console.log(x);
-                 me.hidden = false
-                 me.img = x.imgRetweet
-                }
               
+              // if (!userParams) {
+              //   return;
+              // } else {
+            
+              //   console.log(userParams);
+              //  if(userParams.id !== ctx.id){
+              //   return
+              //  }
+              //  if(!userParams.cidRetweet){
+              //   return
+              //  }
+              //   newVisible(userParams.cidRetweet)
+              //      if(x){
+              //       console.log(x);
              
-            },
+              //      }
+                 
+                
+             
+                },
+             
+         
             exec: async (ctx, me) => {},
           },
         }),
