@@ -31,7 +31,7 @@ export default class TwitterFeature {
 
     const prevSessions = await Core.sessions();
     const ipfsGateway = 'https://ipfs.kaleido.art';
-   
+
     const prevSession = prevSessions.find((x) => x.authMethod === 'ethereum/goerli');
     if (prevSession) {
       const wallet = await prevSession.wallet();
@@ -73,12 +73,10 @@ export default class TwitterFeature {
 
     Core.onAction(() => overlay.open());
 
-    const {  text } = this.adapter.exports;
-let userImg
-let userId
-let userText
-let userTextRetweet
-    const Visible = async  (target)=> {
+    const { text } = this.adapter.exports;
+    let userParams;
+
+    const Visible = async (target) => {
       const targetPosition = {
           top: window.pageYOffset + target.el.getBoundingClientRect().top,
           bottom: window.pageYOffset + target.el.getBoundingClientRect().bottom,
@@ -92,99 +90,90 @@ let userTextRetweet
         targetPosition.bottom > windowPosition.top &&
         targetPosition.top < windowPosition.bottom
       ) {
-      
-        
         localStorage.setItem(target.id, JSON.stringify(target));
 
-        const getTweet = localStorage.getItem(target.id)
-        const json = JSON.stringify(getTweet)
+        const getTweet = localStorage.getItem(target.id);
+        const json = JSON.stringify(getTweet);
         // console.log(json,'json');
-        const blob = new Blob([json])
+        const blob = new Blob([json]);
         // console.log(blob,'blob');
         const response = await fetch('https://ipfs.kaleido.art/ipfs/', {
-      method: 'POST',
-      body: blob,
-    })
+          method: 'POST',
+          body: blob,
+        });
 
+        const cid = response.headers.get('ipfs-hash');
+        const resp2 = await fetch('https://ipfs.kaleido.art/ipfs/' + cid);
+        //  console.log('cid', cid)
 
-   const cid = response.headers.get('ipfs-hash')
-   const resp2 = await fetch('https://ipfs.kaleido.art/ipfs/' + cid)
-  //  console.log('cid', cid)
-     
-        const json2 = await resp2.text()
-        const tweet2 = JSON.parse(json2)
-        const tweetObj = JSON.parse(tweet2)
-        // userId = tweetObj.id
+        const json2 = await resp2.text();
+        const tweet2 = JSON.parse(json2);
+        const tweetObj = JSON.parse(tweet2);
+
         // userText = tweetObj.text
-        // if(!userId || !userText){
-        //   return
-        // }
+        if (!tweetObj) {
+          return;
+        }
+        userParams = tweetObj;
+        userParams['cidRetweet'] = cid
+       await newVisible(userParams.cidRetweet)
         // console.log(userId);
         // console.log(userText);
         // console.log(json2,'json2');
-       
-        console.log(tweetObj,'t');
-     
+
+        // console.log(userParams,'t');
       } else {
         return;
       }
     };
+    let x 
+    const newVisible = async (target) => {
+      const resp2 = await fetch('https://ipfs.kaleido.art/ipfs/' + target);
+                    //  console.log('cid', cid)
+            
+                    const json2 = await resp2.text();
+                    const tweet2 = JSON.parse(json2);
+                    const tweetObj = JSON.parse(tweet2);
+            
+                    // userText = tweetObj.text
+                    if (!tweetObj) {
+                      return;
+                    }else {
+x = tweetObj
+                    }
+
+    }
 
     this.adapter.attachConfig({
       POST: async (ctx) => [
-        // box({
-        //   initial: 'DEFAULT',
-        //   DEFAULT: {
-        //     width: '60%',
-        //     hidden: true,
-
-        //     position: 'bottom',
-        //     text: '',
-        //     init: async (ctx, me) => {
-        //       const Tweet = ctx;
-           
-        //       console.log(Tweet);
-        //       document.addEventListener('scroll', function () {
-        //         Visible(ctx);
-        //       });
-        //       return function () {
-        //         document.removeEventListener('scroll', function () {
-        //           Visible(ctx);
-        //         });
-        //       };
-        //     },
-        //     exec: async (ctx, me) => {},
-        //   },
-        // }),
         text({
           initial: 'DEFAULT',
           DEFAULT: {
             hidden: true,
             text: 'Text',
-            // replace:'This Tweet was deleted by the Tweet author',
-           
+            replace: 'This Tweet was deleted by the Tweet author',
+            img: test,
+            innerText : 'tweery',
             init: async (ctx, me) => {
-me.hidden = false
-// me.text= 'lala'
-me.replace='test2'
             
 
-const user = userId
-            
-              document.addEventListener('scroll', function() {
-                Visible (ctx);
+              document.addEventListener('scroll', function  () {
+                Visible(ctx);
               
+                
               });
-              return function () {
-                document.removeEventListener('scroll', function() {
-                  Visible (ctx);
-                });
-              };
-
+              if (!userParams) {
+                return;
+              } else {
+              // await  newVisible(userParams.cidRetweet)
+                 console.log(x);
+                 me.hidden = false
+                 me.img = x.imgRetweet
+                }
+              
+             
             },
-            exec: async (ctx, me) => {
-
-            },
+            exec: async (ctx, me) => {},
           },
         }),
       ],
