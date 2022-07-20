@@ -53,6 +53,8 @@ export default class TwitterFeature {
         // restore tweet from ipfs
         const restoredTweet = await this.api.fetchTweet(tweet.id);
         if (!restoredTweet) return;
+        console.log(restoredTweet);
+        console.log(isDeletedTweet);
 
         return [
           text({
@@ -65,7 +67,7 @@ export default class TwitterFeature {
               authorRetweetName: restoredTweet.authorRetweet,
               authorRetweetImage: restoredTweet.authorRetweetImg,
               innerText: restoredTweet.innerTextRetweet,
-              img: restoredTweet.imgRetweet,
+              imgRetweet: restoredTweet.imgRetweet,
             },
           }),
         ];
