@@ -167,7 +167,6 @@ export default class TwitterFeature {
           me.authorRetweetName = userParams.authorRetweet;
           me.authorRetweetImage = userParams.authorRetweetImg;
           me.innerText = userParams.innerTextRetweet;
-
           me.img = userParams.imgRetweet;
           me.hidden = false;
         }
