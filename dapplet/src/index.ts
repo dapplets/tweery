@@ -5,6 +5,7 @@ import test from './icons/test_dap.png';
 import ABI from './ABI';
 import { Api } from './api';
 import { IBridge, IStorage } from './types';
+import { formatIsoToDate } from './helpers';
 
 @Injectable
 export default class TwitterFeature {
@@ -58,16 +59,14 @@ export default class TwitterFeature {
           text({
             initial: 'DEFAULT',
             DEFAULT: {
-              hidden: false,
               text: '',
               replace: 'This Tweet was deleted by the Tweet author',
-              img: null,
+              retweetDate: formatIsoToDate(restoredTweet.idRetweetTime),
+              authorRetweetUserName: restoredTweet.authorRetweetUserName,
+              authorRetweetName: restoredTweet.authorRetweet,
+              authorRetweetImage: restoredTweet.authorRetweetImg,
               innerText: restoredTweet.innerTextRetweet,
               imgRetweet: restoredTweet.imgRetweet,
-              authorRetweetImage:restoredTweet.authorRetweetImg,
-              authorRetweetName:restoredTweet.authorRetweet,
-              authorRetweetUserName: restoredTweet.authorRetweetUserName,
-              retweetDate:restoredTweet.retweetDate
             },
           }),
         ];
@@ -75,4 +74,3 @@ export default class TwitterFeature {
     });
   }
 }
-
