@@ -31,17 +31,35 @@ export default class TwitterFeature {
     .declare(this.api);
 
   async activate(): Promise<void> {
+    console.log('this.api', this.api);
+
     Core.onAction(() => this.overlay.open());
 
     await this.api.initializeCurrentAccount();
 
-    const { text } = this.adapter.exports;
+    const { text, post } = this.adapter.exports;
 
     this.adapter.attachConfig({
+      PROFILE: async (profile) => {
+        const customTweets = await this.api.fetchCustomTweets(profile.authorUsername);
+        return customTweets.map((x) =>
+          post({
+            initial: 'DEFAULT',
+            DEFAULT: {
+              text: x.text,
+              authorFullname: profile.authorFullname,
+              authorUsername: profile.authorUsername,
+              authorImg: profile.authorImg,
+            },
+          }),
+        );
+      },
       POST: async (tweet) => {
         if (!tweet.id || !tweet.el) return;
 
-        const isDeletedTweet = tweet.el.innerHTML.includes('This Tweet was deleted');
+        const html = tweet.el.innerHTML;
+        const isDeletedTweet =
+          html.includes('This Tweet was deleted') || html.includes('This Tweet is unavailable');
 
         // backup tweet into ipfs
         if (!isDeletedTweet) {

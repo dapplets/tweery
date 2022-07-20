@@ -19,5 +19,6 @@ export interface ICustomTweet {
 export interface IBridge {
   login: () => Promise<void>;
   logout: () => Promise<void>;
-  addCustomTweet: (ICustomTweet: ICustomTweet) => any;
+  addCustomTweet: (authorUsername: string, tweet: ICustomTweet) => Promise<void>;
+  fetchCustomTweets: (authorUsername: string) => Promise<ICustomTweet[]>;
 }
