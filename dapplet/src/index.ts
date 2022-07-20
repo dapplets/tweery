@@ -78,6 +78,7 @@ export default class TwitterFeature {
             initial: 'DEFAULT',
             DEFAULT: {
               text: '',
+              color: { DARK: '#FFF', LIGHT: '#000' },
               replace: 'This Tweet was deleted by the Tweet author',
               retweetDate: formatIsoToDate(restoredTweet.idRetweetTime),
               authorRetweetUserName: restoredTweet.authorRetweetUserName,
