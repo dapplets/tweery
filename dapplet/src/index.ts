@@ -31,6 +31,8 @@ export default class TwitterFeature {
     .declare(this.api);
 
   async activate(): Promise<void> {
+    console.log('this.api', this.api);
+
     Core.onAction(() => this.overlay.open());
 
     await this.api.initializeCurrentAccount();
@@ -38,31 +40,26 @@ export default class TwitterFeature {
     const { text, post } = this.adapter.exports;
 
     this.adapter.attachConfig({
-      PROFILE: async (profile) => [
-        post({
-          initial: 'DEFAULT',
-          DEFAULT: {
-            text: 'Test tweet is here',
-            authorFullname: profile.authorFullname,
-            authorUsername: profile.authorUsername,
-            authorImg: profile.authorImg
-          }
-        }),
-        post({
-          initial: 'DEFAULT',
-          DEFAULT: {
-            text: 'Test tweet is here 2',
-            authorFullname: profile.authorFullname,
-            authorUsername: profile.authorUsername,
-            authorImg: profile.authorImg
-          }
-        })
-      ],
+      PROFILE: async (profile) => {
+        const customTweets = await this.api.fetchCustomTweets(profile.authorUsername);
+        return customTweets.map((x) =>
+          post({
+            initial: 'DEFAULT',
+            DEFAULT: {
+              text: x.text,
+              authorFullname: profile.authorFullname,
+              authorUsername: profile.authorUsername,
+              authorImg: profile.authorImg,
+            },
+          }),
+        );
+      },
       POST: async (tweet) => {
         if (!tweet.id || !tweet.el) return;
 
         const html = tweet.el.innerHTML;
-        const isDeletedTweet = html.includes('This Tweet was deleted') || html.includes('This Tweet is unavailable');
+        const isDeletedTweet =
+          html.includes('This Tweet was deleted') || html.includes('This Tweet is unavailable');
 
         // backup tweet into ipfs
         if (!isDeletedTweet) {
