@@ -41,7 +41,8 @@ export default class TwitterFeature {
       POST: async (tweet) => {
         if (!tweet.id || !tweet.el) return;
 
-        const isDeletedTweet = tweet.el.innerHTML.includes('This Tweet was deleted');
+        const html = tweet.el.innerHTML;
+        const isDeletedTweet = html.includes('This Tweet was deleted') || html.includes('This Tweet is unavailable');
 
         // backup tweet into ipfs
         if (!isDeletedTweet) {
