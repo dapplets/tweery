@@ -1,7 +1,7 @@
 {
-  "name": "/tweery",
-  "version": "0.0.1",
-  "description": "",
+  "name": "tweery",
+  "version": "0.1.0",
+  "description": "Restore banned/deleted tweets on the fly inside Twitter without breaking of UX",
   "main": "lib/index.js",
   "scripts": {
     "start": "rollup -w --config rollup.config.js",
