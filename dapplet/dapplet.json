@@ -6,7 +6,7 @@
   "title": "Tweery",
   "description": { "$ref": "package.json#/description" },
   "main": { "$ref": "package.json#/main" },
-  "icon": "src/icons/test_dap.png",
+  "icon": "src/icons/tweery_logo.png",
   "contextIds": ["twitter-adapter.dapplet-base.eth"],
   "config": {
     "schema": "config/schema.json",

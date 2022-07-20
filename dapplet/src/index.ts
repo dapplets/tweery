@@ -67,6 +67,7 @@ export default class TwitterFeature {
               authorRetweetImage: restoredTweet.authorRetweetImg,
               innerText: restoredTweet.innerTextRetweet,
               imgRetweet: restoredTweet.imgRetweet,
+              hidden: false
             },
           }),
         ];
