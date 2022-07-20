@@ -5,7 +5,7 @@ import test from './icons/test_dap.png';
 import ABI from './ABI';
 import { Api } from './api';
 import { IBridge, IStorage } from './types';
-import { formatIsoToDate } from './helpers';
+import { formatIsoToDate, waitProperty } from './helpers';
 
 @Injectable
 export default class TwitterFeature {
@@ -30,14 +30,12 @@ export default class TwitterFeature {
     .useState(this.state)
     .declare(this.api);
 
-  async activate(): Promise<void> {
-    console.log('this.api', this.api);
-
+  async activate(): Promise<void> { 
     Core.onAction(() => this.overlay.open());
 
     await this.api.initializeCurrentAccount();
 
-    const { text, post } = this.adapter.exports;
+    const { quote, post } = this.adapter.exports;
 
     this.adapter.attachConfig({
       PROFILE: async (profile) => {
@@ -55,38 +53,32 @@ export default class TwitterFeature {
         );
       },
       POST: async (tweet) => {
-        if (!tweet.id || !tweet.el) return;
+        // backup and restore only quoted tweets
+        if (!tweet.id || !tweet.quote) return;
 
-        const html = tweet.el.innerHTML;
-        const isDeletedTweet =
-          html.includes('This Tweet was deleted') || html.includes('This Tweet is unavailable');
-
-        // backup tweet into ipfs
-        if (!isDeletedTweet) {
+        // backup quote tweets into ipfs
+        if (!tweet.quote.isDeleted) {
+          await waitProperty(tweet, 'authorImg', 5000);
           await this.api.saveTweet(tweet);
           return;
         }
 
         // restore tweet from ipfs
         const restoredTweet = await this.api.fetchTweet(tweet.id);
-        if (!restoredTweet) return;
-        console.log(restoredTweet);
-        console.log(isDeletedTweet);
+        if (!restoredTweet || !restoredTweet.quote) return;
 
         return [
-          text({
+          quote({
             initial: 'DEFAULT',
             DEFAULT: {
-              text: '',
-              color: { DARK: '#FFF', LIGHT: '#000' },
               replace: 'This Tweet was deleted by the Tweet author',
-              retweetDate: formatIsoToDate(restoredTweet.idRetweetTime),
-              authorRetweetUserName: restoredTweet.authorRetweetUserName,
-              authorRetweetName: restoredTweet.authorRetweet,
-              authorRetweetImage: restoredTweet.authorRetweetImg,
-              innerText: restoredTweet.innerTextRetweet,
-              imgRetweet: restoredTweet.imgRetweet,
-              hidden: false
+              date: formatIsoToDate(restoredTweet.quote.createdAt),
+              authorUsername: restoredTweet.quote.authorUsername,
+              authorFullname: restoredTweet.quote.authorFullname,
+              authorImg: restoredTweet.quote.authorImg,
+              text: restoredTweet.quote.text,
+              img: restoredTweet.quote.img,
+              color: { DARK: '#FFF', LIGHT: '#000' },
             },
           }),
         ];
