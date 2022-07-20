@@ -38,6 +38,6 @@ export class StorageController
     next: NextFunction,
   ): Promise<void> {
     await this.repository.set(body.key, body.value);
-    res.status(200);
+    res.status(200).send();
   }
 }
