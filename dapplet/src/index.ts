@@ -11,20 +11,19 @@ interface IStorage {
   isActive: boolean;
   userAccount: string;
 }
-interface ICustomTweet{
-  authorFullname: string
-authorUsername: string
-authorHash?: string
-id: string
-time: string
-date: string
-text: string
-
+interface ICustomTweet {
+  authorFullname: string;
+  authorUsername: string;
+  authorHash?: string;
+  id: string;
+  time: string;
+  date: string;
+  text: string;
 }
 interface IBridge {
   login: () => Promise<void>;
   logout: () => Promise<void>;
-  addCustomTweet: (ICustomTweet:ICustomTweet) => any;
+  addCustomTweet: (ICustomTweet: ICustomTweet) => any;
 }
 @Injectable
 export default class TwitterFeature {
@@ -80,31 +79,26 @@ export default class TwitterFeature {
 
           // changeIsActiveStates(state);
         },
-        addCustomTweet: async (ICustomTweet:ICustomTweet)=>{
-        
+        addCustomTweet: async (ICustomTweet: ICustomTweet) => {
+          const getTweet = JSON.stringify(ICustomTweet);
+          const json = JSON.stringify(getTweet);
 
-          const getTweet = JSON.stringify(ICustomTweet)
-          const json = JSON.stringify(getTweet)
-        
-          const blob = new Blob([json])
-         
+          const blob = new Blob([json]);
+
           const response = await fetch('https://ipfs.kaleido.art/ipfs/', {
-        method: 'POST',
-        body: blob,
-      })
-  
-  
-     const cid = response.headers.get('ipfs-hash')
-     const resp2 = await fetch('https://ipfs.kaleido.art/ipfs/' + cid)
- 
-       
-          const json2 = await resp2.text()
-          const tweet2 = JSON.parse(json2)
-          const tweetObj = JSON.parse(tweet2)
-         
-         
-          console.log(tweetObj,'tweetObj');
-        }
+            method: 'POST',
+            body: blob,
+          });
+
+          const cid = response.headers.get('ipfs-hash');
+          const resp2 = await fetch('https://ipfs.kaleido.art/ipfs/' + cid);
+
+          const json2 = await resp2.text();
+          const tweet2 = JSON.parse(json2);
+          const tweetObj = JSON.parse(tweet2);
+
+          console.log(tweetObj, 'tweetObj');
+        },
       });
 
     Core.onAction(() => overlay.open());
@@ -112,7 +106,7 @@ export default class TwitterFeature {
     const { text } = this.adapter.exports;
     let userParams;
 
-    const Visible = async (target,me) => {
+    const Visible = async (target, me) => {
       const targetPosition = {
           top: window.pageYOffset + target.el.getBoundingClientRect().top,
           bottom: window.pageYOffset + target.el.getBoundingClientRect().bottom,
@@ -126,61 +120,51 @@ export default class TwitterFeature {
         targetPosition.bottom > windowPosition.top &&
         targetPosition.top < windowPosition.bottom
       ) {
-        const newTweet = JSON.parse(localStorage.getItem(target.id))
-        if(newTweet === null){
+        const newTweet = JSON.parse(localStorage.getItem(target.id));
+        if (newTweet === null) {
           localStorage.setItem(target.id, JSON.stringify(target));
         }
-        
 
         const getTweet = localStorage.getItem(target.id);
-        // console.log(getTweet);
-        // const x = JSON.stringify(getTweet)
+
         const json = JSON.stringify(getTweet);
-       
+
         const blob = new Blob([json]);
-        // console.log(blob,'blob');
+
         const response = await fetch('https://ipfs.kaleido.art/ipfs/', {
           method: 'POST',
           body: blob,
         });
 
         const cid = response.headers.get('ipfs-hash');
-        
+
         const resp2 = await fetch('https://ipfs.kaleido.art/ipfs/' + cid);
         const json2 = await resp2.text();
         const tweet2 = JSON.parse(json2);
         const tweetObj = JSON.parse(tweet2);
 
-       
         if (!tweetObj) {
           return;
         }
-        if(tweetObj.id === target.id){
+        if (tweetObj.id === target.id) {
           userParams = tweetObj;
-        userParams['cidRetweet'] = cid 
-        // console.log(userParams,'t');
-        me.replace= 'This Tweet was deleted by the Tweet author'
-     
-        if(userParams.innerTextRetweet){
- me.innerText = userParams.innerTextRetweet
- me.hidden = false
+          userParams['cidRetweet'] = cid;
+         
+          me.replace = 'This Tweet was deleted by the Tweet author';
 
+          if (userParams.innerTextRetweet) {
+            me.innerText = userParams.innerTextRetweet;
+            me.hidden = false;
+          }
+          if (userParams.imgRetweet) {
+            me.img = userParams.imgRetweet;
+            me.hidden = false;
+          }
         }
-        if(userParams.imgRetweet){
-          me.img = userParams.imgRetweet 
-          me.hidden = false
-                 }
-    
-                
-        }
-
-
-       
       } else {
         return;
       }
     };
-
 
     this.adapter.attachConfig({
       POST: async (ctx) => [
@@ -191,18 +175,13 @@ export default class TwitterFeature {
             text: '',
             replace: 'This Tweet was deleted by the Tweet author',
             img: null,
-            innerText : '',
+            innerText: '',
             init: async (ctx, me) => {
-            
-
-              document.addEventListener('scroll', function  () {
-                Visible(ctx,me);
-        
+              document.addEventListener('scroll', function () {
+                Visible(ctx, me);
               });
-         
-                },
-             
-         
+            },
+
             exec: async (ctx, me) => {},
           },
         }),
