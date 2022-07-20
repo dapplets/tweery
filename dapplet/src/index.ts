@@ -35,9 +35,29 @@ export default class TwitterFeature {
 
     await this.api.initializeCurrentAccount();
 
-    const { text } = this.adapter.exports;
+    const { text, post } = this.adapter.exports;
 
     this.adapter.attachConfig({
+      PROFILE: async (profile) => [
+        post({
+          initial: 'DEFAULT',
+          DEFAULT: {
+            text: 'Test tweet is here',
+            authorFullname: profile.authorFullname,
+            authorUsername: profile.authorUsername,
+            authorImg: profile.authorImg
+          }
+        }),
+        post({
+          initial: 'DEFAULT',
+          DEFAULT: {
+            text: 'Test tweet is here 2',
+            authorFullname: profile.authorFullname,
+            authorUsername: profile.authorUsername,
+            authorImg: profile.authorImg
+          }
+        })
+      ],
       POST: async (tweet) => {
         if (!tweet.id || !tweet.el) return;
 
