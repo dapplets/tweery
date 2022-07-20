@@ -29,12 +29,7 @@ export class StorageController
     next: NextFunction,
   ): Promise<void> {
     const value = await this.repository.get(query.key as string);
-
-    if (value === null) {
-      return next(new HTTPError(422, "There is no such field", "STORAGE"));
-    }
-
-    res.status(200).send(value);
+    res.status(200).json(value);
   }
 
   async set(
@@ -42,7 +37,7 @@ export class StorageController
     res: Response,
     next: NextFunction,
   ): Promise<void> {
-    this.repository.set(body.key, body.value);
-    res.status(200).send(body);
+    await this.repository.set(body.key, body.value);
+    res.status(200);
   }
 }
