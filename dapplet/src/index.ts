@@ -11,9 +11,20 @@ interface IStorage {
   isActive: boolean;
   userAccount: string;
 }
+interface ICustomTweet{
+  authorFullname: string
+authorUsername: string
+authorHash?: string
+id: string
+time: string
+date: string
+text: string
+
+}
 interface IBridge {
   login: () => Promise<void>;
   logout: () => Promise<void>;
+  addCustomTweet: (ICustomTweet:ICustomTweet) => any;
 }
 @Injectable
 export default class TwitterFeature {
@@ -56,7 +67,7 @@ export default class TwitterFeature {
 
             const accountIds = await wallet.request({ method: 'eth_accounts', params: [] });
             state.global.userAccount.next(accountIds[0]);
-
+            console.log('login');
             // changeIsActiveStates(state);
           } catch (err) {
             console.log('Login was denied', err);
@@ -69,6 +80,31 @@ export default class TwitterFeature {
 
           // changeIsActiveStates(state);
         },
+        addCustomTweet: async (ICustomTweet:ICustomTweet)=>{
+        
+
+          const getTweet = JSON.stringify(ICustomTweet)
+          const json = JSON.stringify(getTweet)
+        
+          const blob = new Blob([json])
+         
+          const response = await fetch('https://ipfs.kaleido.art/ipfs/', {
+        method: 'POST',
+        body: blob,
+      })
+  
+  
+     const cid = response.headers.get('ipfs-hash')
+     const resp2 = await fetch('https://ipfs.kaleido.art/ipfs/' + cid)
+ 
+       
+          const json2 = await resp2.text()
+          const tweet2 = JSON.parse(json2)
+          const tweetObj = JSON.parse(tweet2)
+         
+         
+          console.log(tweetObj,'tweetObj');
+        }
       });
 
     Core.onAction(() => overlay.open());
@@ -122,11 +158,13 @@ export default class TwitterFeature {
         if(tweetObj.id === target.id){
           userParams = tweetObj;
         userParams['cidRetweet'] = cid 
-        console.log(userParams,'t');
+        // console.log(userParams,'t');
         me.replace= 'This Tweet was deleted by the Tweet author'
+     
         if(userParams.innerTextRetweet){
  me.innerText = userParams.innerTextRetweet
  me.hidden = false
+
         }
         if(userParams.imgRetweet){
           me.img = userParams.imgRetweet 
@@ -135,35 +173,14 @@ export default class TwitterFeature {
     
                 
         }
-              
-    
-      //  await newVisible(userParams.cidRetweet)
-        // console.log(userId);
-        // console.log(userText);
-        // console.log(json2,'json2');
+
 
        
       } else {
         return;
       }
     };
-    let x 
-    const newVisible = async (target) => {
-      const resp2 = await fetch('https://ipfs.kaleido.art/ipfs/' + target);
-                    //  console.log('cid', cid)
-            
-                    const json2 = await resp2.text();
-                    const tweet2 = JSON.parse(json2);
-                    const tweetObj = JSON.parse(tweet2);
-            
-                    // userText = tweetObj.text
-                    if (!tweetObj) {
-                      return;
-                    }else {
-x = tweetObj
-                    }
 
-    }
 
     this.adapter.attachConfig({
       POST: async (ctx) => [
@@ -173,8 +190,8 @@ x = tweetObj
             hidden: true,
             text: '',
             replace: 'This Tweet was deleted by the Tweet author',
-            img: test,
-            innerText : 'tweery',
+            img: null,
+            innerText : '',
             init: async (ctx, me) => {
             
 
@@ -182,26 +199,7 @@ x = tweetObj
                 Visible(ctx,me);
         
               });
-              
-              // if (!userParams) {
-              //   return;
-              // } else {
-            
-              //   console.log(userParams);
-              //  if(userParams.id !== ctx.id){
-              //   return
-              //  }
-              //  if(!userParams.cidRetweet){
-              //   return
-              //  }
-              //   newVisible(userParams.cidRetweet)
-              //      if(x){
-              //       console.log(x);
-             
-              //      }
-                 
-                
-             
+         
                 },
              
          

@@ -7,16 +7,25 @@ import styles from './App.module.scss'
 import cn from 'classnames'
 
 
-interface IStorage {
+ interface IStorage {
   likes: string[]
   counter: number
   link: string
   userAccount: string
 }
-
+export interface ICustomTweet{
+  authorFullname: string
+authorUsername: string
+authorHash?: string
+id: string
+time: string
+date: string
+text: string
+}
 interface IBridge {
   login: () => Promise<void>
   logout: () => Promise<void>
+  addCustomTweet: (ICustomTweet:ICustomTweet) => any;
 }
 
 const App = (props: IDappStateProps<IStorage>) => {
@@ -38,7 +47,14 @@ const App = (props: IDappStateProps<IStorage>) => {
     const res = await bridge.logout();
     setIsWaiting(false);
   };
+  const addTweet = async (e: any, newTweet:any) => {
+    e.preventDefault();
+    setIsWaiting(true);
+    await bridge.addCustomTweet(newTweet);
+    setIsWaiting(false);
+  };
 
+// addTweet()
   return sharedState && (
     <div className={styles.wrapper}>
       <Login
@@ -51,6 +67,7 @@ const App = (props: IDappStateProps<IStorage>) => {
         logout={handleLogOut}
         disabled={isWaiting}
         loading={isWaiting}
+        addCustomTweet={addTweet}
       />
     </div>
   );

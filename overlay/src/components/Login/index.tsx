@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Connect } from '../../pages/Connect';
 import { Disconnect } from '../../pages/Disconnect';
 import styles from './Login.module.scss'
+
 import cn from 'classnames'
 
 export interface LoginProps {
@@ -13,6 +14,7 @@ export interface LoginProps {
       logout: (e: any) => Promise<void>
       disabled?: boolean
     loading?: boolean
+    addCustomTweet: (x:any,newTweet:any) => any;
   }
   
   export const Login: FC<LoginProps> = (props: LoginProps) => {
@@ -25,6 +27,7 @@ export interface LoginProps {
       logout,
       disabled,
       loading,
+      addCustomTweet
     } = props;
   
       return (
@@ -42,6 +45,7 @@ export interface LoginProps {
             avatar={avatar}
             name={name}
             onLogout={logout}
+            addCustomTweet={addCustomTweet}
           />}
           </div>
       );
