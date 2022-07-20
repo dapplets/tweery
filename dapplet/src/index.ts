@@ -66,7 +66,6 @@ export default class TwitterFeature {
 
             const accountIds = await wallet.request({ method: 'eth_accounts', params: [] });
             state.global.userAccount.next(accountIds[0]);
-            console.log('login');
             // changeIsActiveStates(state);
           } catch (err) {
             console.log('Login was denied', err);
@@ -149,17 +148,28 @@ export default class TwitterFeature {
         if (tweetObj.id === target.id) {
           userParams = tweetObj;
           userParams['cidRetweet'] = cid;
-         
+          console.log(userParams);
+          const newTime = new Date(userParams.idRetweetTime);
+          const res = [
+            addLeadZero(newTime.getDate()),
+            addLeadZero(newTime.getMonth() + 1),
+            newTime.getFullYear(),
+          ].join('.');
+
+          function addLeadZero(val) {
+            if (+val < 10) return '0' + val;
+            return val;
+          }
           me.replace = 'This Tweet was deleted by the Tweet author';
 
-          if (userParams.innerTextRetweet) {
-            me.innerText = userParams.innerTextRetweet;
-            me.hidden = false;
-          }
-          if (userParams.imgRetweet) {
-            me.img = userParams.imgRetweet;
-            me.hidden = false;
-          }
+          me.retweetDate = res;
+          me.authorRetweetUserName = userParams.authorRetweetUserName;
+          me.authorRetweetName = userParams.authorRetweet;
+          me.authorRetweetImage = userParams.authorRetweetImg;
+          me.innerText = userParams.innerTextRetweet;
+
+          me.img = userParams.imgRetweet;
+          me.hidden = false;
         }
       } else {
         return;
@@ -176,6 +186,10 @@ export default class TwitterFeature {
             replace: 'This Tweet was deleted by the Tweet author',
             img: null,
             innerText: '',
+            authorRetweetImage: null,
+            authorRetweetName: null,
+            authorRetweetUserName: null,
+            retweetDate: null,
             init: async (ctx, me) => {
               document.addEventListener('scroll', function () {
                 Visible(ctx, me);
