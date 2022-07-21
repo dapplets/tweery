@@ -54,6 +54,9 @@ export default class TwitterFeature {
               authorImg: profile.authorImg,
               color: { DARK: '#FFF', LIGHT: '#000' },
               hidden:false
+            },
+            init: async (ctx, me) => {
+              // console.log(ctx);
             }
           })}
         );
@@ -64,7 +67,8 @@ export default class TwitterFeature {
 
         // backup quote tweets into ipfs
         if (!tweet.quote.isDeleted) {
-          await waitProperty(tweet, 'authorImg', 5000);
+          // wait lazy loaded images
+          await new Promise((res) => setTimeout(res, 3000));
           await this.api.saveTweet(tweet);
           return;
         }
