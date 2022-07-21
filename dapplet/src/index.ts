@@ -40,9 +40,6 @@ export default class TwitterFeature {
     this.adapter.attachConfig({
       PROFILE: async (profile) => {
         const customTweets = await this.api.fetchCustomTweets('lisofffa');
-      console.log(customTweets);
-      console.log(profile.authorUsername);
-      this.api.addCustomTweet(profile.authorUsername, profile)
         return customTweets.map((x) =>
        
           post({

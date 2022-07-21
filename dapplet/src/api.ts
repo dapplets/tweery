@@ -71,8 +71,6 @@ export class Api implements IBridge {
   }
 
   async addCustomTweet(authorUsername: string, tweet: ICustomTweet): Promise<void> {
-  //  console.log(authorUsername);
-  //  console.log(tweet);
     const newTweetCid = await this.ipfsStorage.saveObject(tweet);
     const existingCids = await this.kvStorage.get(`profile/${authorUsername}`) ?? [];
     const newCids = [...existingCids, newTweetCid];
@@ -80,7 +78,6 @@ export class Api implements IBridge {
   }
 
   async fetchCustomTweets(authorUsername: string): Promise<ICustomTweet[]> {
-    // console.log(authorUsername, 'fetchCustomTweets');
     const cids = await this.kvStorage.get(`profile/${authorUsername}`) ?? [];
     return Promise.all(cids.map(x => this.ipfsStorage.fetchObject(x)));
   }
