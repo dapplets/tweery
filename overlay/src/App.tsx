@@ -25,15 +25,32 @@ text: string
 interface IBridge {
   login: () => Promise<void>
   logout: () => Promise<void>
-  addCustomTweet: (ICustomTweet:ICustomTweet) => any;
+  addCustomTweet: (authorUsername: string,ICustomTweet:ICustomTweet) => Promise<void>;
+  fetchCustomTweets(authorUsername: string): Promise<ICustomTweet[]>
 }
 
 const App = (props: IDappStateProps<IStorage>) => {
   const [isWaiting, setIsWaiting] = useState(false);
-
+  const [cusomTweets, setCustomTweets] = useState<ICustomTweet[]>();
   const { sharedState } = props;
   const bridge = new Bridge<IBridge>();
+useEffect(()=>{
+  // setIsWaiting(true)
+  const init = async()=>{
+  const res =  await bridge.fetchCustomTweets('lisofffa')
+  if(res){
+     setCustomTweets(res)
+  }
+  // setIsWaiting(false)
 
+  
+  }
+  init()
+return ()=>{
+
+}
+},[]) 
+//  console.log(cusomTweets);
   const handleLogIn = async (e: any) => {
     e.preventDefault();
     setIsWaiting(true);
@@ -49,15 +66,27 @@ const App = (props: IDappStateProps<IStorage>) => {
   };
   const addTweet = async (e: any, newTweet:any) => {
     e.preventDefault();
+    if(!newTweet) return
     setIsWaiting(true);
-    await bridge.addCustomTweet(newTweet);
+    const res =  await bridge.addCustomTweet('lisofffa',newTweet)
     setIsWaiting(false);
+ 
+  };
+  const getTweet = async () => {
+    // e.preventDefault();
+    setIsWaiting(true);
+    const res =  await bridge.fetchCustomTweets('lisofffa')
+
+    setIsWaiting(false);
+
+  
+ return res
   };
 
 // addTweet()
   return sharedState && (
     <div className={styles.wrapper}>
-      <Login
+     <Login
      
         name={sharedState.global?.userAccount}
         message="// Imagine a world where
@@ -68,6 +97,8 @@ const App = (props: IDappStateProps<IStorage>) => {
         disabled={isWaiting}
         loading={isWaiting}
         addCustomTweet={addTweet}
+        fetchCustomTweets={getTweet}
+        cusomTweets={cusomTweets}
       />
     </div>
   );

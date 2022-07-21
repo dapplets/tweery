@@ -4,6 +4,7 @@ import { Disconnect } from '../../pages/Disconnect';
 import styles from './Login.module.scss'
 
 import cn from 'classnames'
+import { ICustomTweet } from '../../App';
 
 export interface LoginProps {
     logo?: string
@@ -15,6 +16,8 @@ export interface LoginProps {
       disabled?: boolean
     loading?: boolean
     addCustomTweet: (x:any,newTweet:any) => any;
+    fetchCustomTweets:()=> any;
+    cusomTweets:any
   }
   
   export const Login: FC<LoginProps> = (props: LoginProps) => {
@@ -27,7 +30,8 @@ export interface LoginProps {
       logout,
       disabled,
       loading,
-      addCustomTweet
+      addCustomTweet,
+      fetchCustomTweets,cusomTweets
     } = props;
   
       return (
@@ -44,8 +48,11 @@ export interface LoginProps {
           : <Disconnect
             avatar={avatar}
             name={name}
+            loading={loading}
             onLogout={logout}
             addCustomTweet={addCustomTweet}
+            fetchCustomTweets={fetchCustomTweets}
+            cusomTweets={cusomTweets}
           />}
           </div>
       );

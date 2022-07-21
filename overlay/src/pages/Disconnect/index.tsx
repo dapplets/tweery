@@ -8,6 +8,9 @@ export interface DisconnectProps {
   name: string;
   onLogout?: (e: any) => Promise<void>;
   addCustomTweet: (x: any, newTweet: any) => any;
+  fetchCustomTweets: () => any;
+  loading:boolean|undefined;
+  cusomTweets:any
 }
 const EMPTY_FORM: ICustomTweet = {
   authorFullname: '',
@@ -29,17 +32,22 @@ interface newTweet {
 }
 
 export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
-  const { avatar, name, onLogout, addCustomTweet } = props;
+  const { avatar, name, onLogout, addCustomTweet,fetchCustomTweets,loading,cusomTweets } = props;
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [creationForm, setCreationForm] = useState<ICustomTweet>(EMPTY_FORM);
+  const [creationForm, setCreationForm] = useState<ICustomTweet>();
   const [isFocusButton, setFocusButton] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [id] = useState(Math.floor(Math.random() * 1_000_000));
 
-  const [testTweets, setTestTweets] = useState<newTweet[]>([]);
+  const [testTweets, setTestTweets] = useState<ICustomTweet[]>([]);
 
   useEffect(() => {
-    const init = () => {
+    const init = async() => {
+      if(cusomTweets){
+         setTestTweets(cusomTweets)
+      }
+     
+
       anime({
         targets: wrapperRef.current,
         translateX: () => {
@@ -50,14 +58,20 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
     };
     init();
     return () => {};
-  }, []);
-  useEffect(() => {}, [isFocusButton, creationForm, inputValue, testTweets]);
+  }, [cusomTweets]);
+  useEffect(() => {
+
+  }, [isFocusButton, creationForm, inputValue, testTweets]);
   const newVisible = (hash: string): string => {
-    const firstFourCharacters = hash.substring(0, 5);
+    if(hash){
+       const firstFourCharacters = hash.substring(0, 5);
     const lastFourCharacters = hash.substring(hash.length - 0, hash.length - 5);
     return `${firstFourCharacters}...${lastFourCharacters}`;
+    }else return hash
+   
   };
-  const changeHandler = (value: any) => {
+  const changeHandler = (e: any, value: any) => {
+    e.preventDefault()
     const date = new Date().toDateString();
     const data = new Date();
     const hour = data.getHours();
@@ -65,18 +79,18 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
     const newForm = Object.assign({}, creationForm);
     newForm.authorFullname = 'Галина Софронова';
     newForm.authorHash = name;
-    newForm.authorUsername = '@lisofffa';
+    newForm.authorUsername = 'lisofffa';
     newForm.date = date;
     newForm.id = id.toString();
     newForm.text = value;
     newForm.time = `${hour} : ${minutes}`;
-    if (value) {
-      setCreationForm(newForm);
-    }
+
+    setCreationForm(newForm);
 
     testTweets?.push(newForm);
 
     setTestTweets(testTweets);
+    addCustomTweet(e, newForm);
   };
 
   return (
@@ -117,12 +131,14 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
           className={styles.writeTweet}
         ></textarea>
         <button
+        type='button'
           className={cn(styles.sendTweet, {
             [styles.buttonSendFocus]: isFocusButton,
           })}
           onClick={(e) => {
-            changeHandler(inputValue);
-            addCustomTweet(e, creationForm);
+            // console.log(creationForm);
+e.preventDefault()
+            changeHandler(e, inputValue);
           }}
         ></button>
       </div>
@@ -130,11 +146,13 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
         <h2 className={styles.tweetTitle}>
           My decentralized tweets <span className={styles.tweetTitleLine}></span>
         </h2>
+        <div className={styles.tweetsBlockWrapper}>
         {testTweets &&
-          testTweets.length > 0 &&
+          // testTweets.length > 0 &&
           testTweets.map((x, i) => (
             <div key={i} className={styles.itemWrapper}>
-              <h3 className={styles.label}>{newVisible(x.authorHash!)}</h3>
+             { x.authorHash !==null ?  <h3 className={styles.label}>{newVisible(x.authorHash!)}</h3>: null}
+             
               <div className={styles.desription}>{x.text}</div>
               <div className={styles.delimeterLine}></div>
               <div className={styles.info}>
@@ -145,7 +163,7 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
                 <span className={styles.ipfs}>Stored in IPFS</span>
               </div>
             </div>
-          ))}
+          ))}</div>
       </div>
       <div className={styles.footer}>
         <div className={styles.counterBlock}>

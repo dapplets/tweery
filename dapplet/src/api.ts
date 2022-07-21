@@ -37,7 +37,6 @@ export class Api implements IBridge {
 
       const accountIds = await wallet.request({ method: 'eth_accounts', params: [] });
       this.state.global.userAccount.next(accountIds[0]);
-      console.log('login');
       // changeIsActiveStates(state);
     } catch (err) {
       console.log('Login was denied', err);
@@ -80,5 +79,8 @@ export class Api implements IBridge {
   async fetchCustomTweets(authorUsername: string): Promise<ICustomTweet[]> {
     const cids = await this.kvStorage.get(`profile/${authorUsername}`) ?? [];
     return Promise.all(cids.map(x => this.ipfsStorage.fetchObject(x)));
+  }
+  async clearCustomTweets(authorUsername: string):Promise<void>{
+    await this.kvStorage.set(`profile/${authorUsername}`, []);
   }
 }

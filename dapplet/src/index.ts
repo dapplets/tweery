@@ -40,21 +40,22 @@ export default class TwitterFeature {
     this.adapter.attachConfig({
       PROFILE: async (profile) => {
         const customTweets = await this.api.fetchCustomTweets('lisofffa');
-        return customTweets.map((x) =>
        
-          post({
+      // this.api.clearCustomTweets('lisofffa')
+
+        return customTweets.map((x) =>{
+          if(!x ) return
+          else return post({
             initial: 'DEFAULT',
             DEFAULT: {
               text: x.text,
               authorFullname: profile.authorFullname,
               authorUsername: profile.authorUsername,
               authorImg: profile.authorImg,
+              color: { DARK: '#FFF', LIGHT: '#000' },
               hidden:false
-            },
-            init: async (ctx, me) => {
-              console.log(ctx);
             }
-          }),
+          })}
         );
       },
       POST: async (tweet) => {

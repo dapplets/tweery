@@ -9,6 +9,19 @@
   flex-direction: column;
   align-items: center;
   padding-bottom: 20px;
+  overflow: -moz-scrollbars-none;
+  overflow: hidden;
+}
+.wrapperDisconnect::-webkit-scrollbar {
+  width: 0;
+}
+
+.wrapperDisconnect::-webkit-scrollbar-thumb {
+  width: 0;
+}
+
+.wrapperDisconnect::-webkit-scrollbar-track {
+  width: 0;
 }
 .logoutBlock {
   display: flex;
@@ -249,8 +262,41 @@ border: 1px solid #FFFFFF;
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1 0 auto;
+  flex: 1 1 auto;
+  overflow: hidden;
 }
+.tweetsBlockWrapper{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  overflow-y: scroll;
+  max-height: 85%;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+
+    cursor: pointer;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgb(244 244 244);
+    background: rgb(244 244 244);
+    background: linear-gradient(90deg, rgba(244, 244, 244, 0) 10%, rgb(60, 59, 64) 50%, rgba(244, 244, 244, 0) 90%);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    width: 4px;
+    height: 2px;
+
+    border-radius: 2px;
+    background: #78777C;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 9%), 0 2px 2px rgb(38 117 209 / 4%);
+  }
+
+}
+
+
 .tweetTitle {
   height: 38px;
   display: flex;
