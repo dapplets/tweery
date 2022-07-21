@@ -83,6 +83,14 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
     <div ref={wrapperRef} className={styles.wrapperDisconnect}>
       <div className={styles.bgline_top}></div>
       <div className={styles.bgline_medium}></div>
+      <div className={styles.mediumLinesTop}></div>
+      <div className={styles.mediumLinesMedium}></div>
+      <div className={styles.mediumLinesBottom}></div>
+      <div className={styles.mediumLinesLeftButton}></div>
+      <div className={styles.bigLineLeft}></div>
+      <div className={styles.bigLineBottom}></div>
+      <div className={styles.bottomLineLeftOne}></div>
+      <div className={styles.bottomLineLeftTwo}></div>
       <div className={styles.logoutBlock}>
         {name && (
           <div className={cn(styles.name, name.length > 23 ? styles.h2 : styles.h1)}>
@@ -141,8 +149,8 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
       </div>
       <div className={styles.footer}>
         <div className={styles.counterBlock}>
-          <span className={styles.counter}>162224 </span>
-          <span className={styles.counterLabel}>tweets crawled</span>
+          {/* <span className={styles.counter}>162224 </span> */}
+          <span className={styles.counterLabel}>{testTweets.length} tweets crawled</span>
         </div>
         <span className={styles.footerDelimeter}></span>
 

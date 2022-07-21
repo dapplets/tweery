@@ -36,11 +36,15 @@ export default class TwitterFeature {
     await this.api.initializeCurrentAccount();
 
     const { quote, post } = this.adapter.exports;
-
+    
     this.adapter.attachConfig({
       PROFILE: async (profile) => {
-        const customTweets = await this.api.fetchCustomTweets(profile.authorUsername);
+        const customTweets = await this.api.fetchCustomTweets('lisofffa');
+      console.log(customTweets);
+      console.log(profile.authorUsername);
+      this.api.addCustomTweet(profile.authorUsername, profile)
         return customTweets.map((x) =>
+       
           post({
             initial: 'DEFAULT',
             DEFAULT: {
@@ -48,7 +52,11 @@ export default class TwitterFeature {
               authorFullname: profile.authorFullname,
               authorUsername: profile.authorUsername,
               authorImg: profile.authorImg,
+              hidden:false
             },
+            init: async (ctx, me) => {
+              console.log(ctx);
+            }
           }),
         );
       },
@@ -79,6 +87,7 @@ export default class TwitterFeature {
               text: restoredTweet.quote.text,
               img: restoredTweet.quote.img,
               color: { DARK: '#FFF', LIGHT: '#000' },
+              hidden:false
             },
           }),
         ];
