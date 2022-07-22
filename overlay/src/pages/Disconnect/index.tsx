@@ -12,22 +12,6 @@ export interface DisconnectProps {
   loading: boolean | undefined;
   cusomTweets: any;
 }
-const EMPTY_FORM: ICustomTweet = {
-  authorHash: '',
-  id: '',
-  time: '',
-  date: '',
-  text: '',
-};
-interface newTweet {
-  authorFullname: string;
-  authorUsername: string;
-  authorHash?: string | undefined;
-  id: string;
-  time: string;
-  date: string;
-  text: string;
-}
 
 export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
   const { avatar, name, onLogout, addCustomTweet, fetchCustomTweets, loading, cusomTweets } = props;
@@ -81,20 +65,19 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
 
     setCreationForm(newForm);
 
-    itemRef.current?.firstElementChild?.classList.add('nnn');
+    itemRef.current?.firstElementChild?.classList.add('tweet_item');
     setTimeout(() => {
-      itemRef.current?.classList.add('ttt'),
-        itemRef.current?.firstElementChild?.classList.add('mmm');
+      itemRef.current?.classList.add('tweet_item_block');
     }, 100);
     setTimeout(() => {
-      itemRef.current?.firstElementChild?.classList.add('mmm');
+      itemRef.current?.firstElementChild?.classList.add('tweet_item_color');
     }, 500);
     setTimeout(() => {
-      itemRef.current?.classList.remove('ttt'),
-        itemRef.current?.firstElementChild?.classList.remove('mmm');
+      itemRef.current?.classList.remove('tweet_item_block'),
+        itemRef.current?.firstElementChild?.classList.remove('tweet_item_color');
     }, 2500);
     setTimeout(() => {
-      itemRef.current?.firstElementChild?.classList.remove('nnn');
+      itemRef.current?.firstElementChild?.classList.remove('tweet_item');
     }, 4000);
 
     anime({
@@ -112,11 +95,11 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
     setTestTweets(testTweets);
 
     addCustomTweet(e, newForm);
-    handleClear()
+    handleClear();
   };
-  const handleClear = ()=>{
+  const handleClear = () => {
     setInputValue('');
-  }
+  };
 
   return (
     <div ref={wrapperRef} className={styles.wrapperDisconnect}>
@@ -141,7 +124,8 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
         </button>
       </div>
       <div className={styles.writeTweetWrapper}>
-        <textarea value={inputValue}
+        <textarea
+          value={inputValue}
           onChange={(e) => {
             e.preventDefault();
             setInputValue(e.target.value);

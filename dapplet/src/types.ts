@@ -5,7 +5,6 @@ export interface IStorage {
   isActive: boolean;
   userAccount: string;
   currentTwitterUsername:string
-  // currentTwitteName: string
 }
 
 export interface ICustomTweet {

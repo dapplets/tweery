@@ -18,7 +18,7 @@ export default class TwitterFeature {
     link: '',
     isActive: false,
     userAccount: '',
-    currentTwitterUsername:''
+    currentTwitterUsername: '',
   });
 
   private api = new Api({
@@ -44,13 +44,12 @@ export default class TwitterFeature {
           if (disabled) {
             this.overlay.open();
           }
-        }
+        },
       },
       PROFILE: async (profile) => {
         const customTweets = await this.api.fetchCustomTweets(profile.authorUsername);
         this.state.global.currentTwitterUsername.next(profile.authorUsername);
         // this.api.clearCustomTweets(profile.authorUsername);
-
         return customTweets.reverse().map((x) => {
           if (!x) return;
           else

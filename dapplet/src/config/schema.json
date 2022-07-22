@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "required": ["network"],
+  "properties": {
+    "network": {
+      "type": "string",
+      "title": "Target network",
+      "enum": [
+        "testnet",
+        "mainnet"
+      ]
+    }
+  }
+}
