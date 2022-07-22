@@ -13,8 +13,6 @@ export interface DisconnectProps {
   cusomTweets: any;
 }
 const EMPTY_FORM: ICustomTweet = {
-  authorFullname: '',
-  authorUsername: '',
   authorHash: '',
   id: '',
   time: '',
@@ -75,9 +73,7 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
     const hour = data.getHours();
     const minutes = data.getMinutes();
     const newForm = Object.assign({}, creationForm);
-    newForm.authorFullname = 'Галина Софронова';
     newForm.authorHash = name;
-    newForm.authorUsername = 'lisofffa';
     newForm.date = date;
     newForm.id = id.toString();
     newForm.text = value;

@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import {} from '@dapplets/dapplet-extension';
-import { bridge } from './dappletBridge';
-import Bridge, { IDappStateProps } from '@dapplets/dapplet-overlay-bridge';
+// import { bridge } from './dappletBridge';
+import Bridge, { IDappStateProps,dappletState } from '@dapplets/dapplet-overlay-bridge';
 import { Login } from './components/Login';
 import styles from './App.module.scss';
 import cn from 'classnames';
@@ -11,10 +11,9 @@ interface IStorage {
   counter: number;
   link: string;
   userAccount: string;
+  currentTwitterUsername:string
 }
 export interface ICustomTweet {
-  authorFullname: string;
-  authorUsername: string;
   authorHash?: string;
   id: string;
   time: string;
@@ -33,9 +32,12 @@ const App = (props: IDappStateProps<IStorage>) => {
   const [cusomTweets, setCustomTweets] = useState<ICustomTweet[]>();
   const { sharedState } = props;
   const bridge = new Bridge<IBridge>();
+  // const state = new dappletState()
+ 
   useEffect(() => {
     const init = async () => {
       const res = await bridge.fetchCustomTweets('lisofffa');
+      // const userName = await bridge.
       if (res) {
         setCustomTweets(res);
       }
@@ -60,15 +62,14 @@ const App = (props: IDappStateProps<IStorage>) => {
   const addTweet = async (e: any, newTweet: any) => {
     e.preventDefault();
     if (!newTweet) return;
-    console.log(newTweet);
-    
+
     setIsWaiting(true);
-    // const res =  await bridge.addCustomTweet('lisofffa',newTweet)
+    const res =  await bridge.addCustomTweet(props.sharedState.global?.currentTwitterUsername,newTweet)
     setIsWaiting(false);
   };
   const getTweet = async () => {
     setIsWaiting(true);
-    const res = await bridge.fetchCustomTweets('lisofffa');
+    const res = await bridge.fetchCustomTweets(props.sharedState.global?.currentTwitterUsername);
 
     setIsWaiting(false);
 

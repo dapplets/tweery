@@ -4,11 +4,11 @@ export interface IStorage {
   link: string;
   isActive: boolean;
   userAccount: string;
+  currentTwitterUsername:string
+  // currentTwitteName: string
 }
 
 export interface ICustomTweet {
-  authorFullname: string;
-  authorUsername: string;
   authorHash?: string;
   id: string;
   time: string;
