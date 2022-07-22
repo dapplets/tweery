@@ -9,8 +9,8 @@ export interface DisconnectProps {
   onLogout?: (e: any) => Promise<void>;
   addCustomTweet: (x: any, newTweet: any) => any;
   fetchCustomTweets: () => any;
-  loading:boolean|undefined;
-  cusomTweets:any
+  loading: boolean | undefined;
+  cusomTweets: any;
 }
 const EMPTY_FORM: ICustomTweet = {
   authorFullname: '',
@@ -32,8 +32,10 @@ interface newTweet {
 }
 
 export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
-  const { avatar, name, onLogout, addCustomTweet,fetchCustomTweets,loading,cusomTweets } = props;
+  const { avatar, name, onLogout, addCustomTweet, fetchCustomTweets, loading, cusomTweets } = props;
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const itemsRef = useRef<HTMLDivElement>(null);
+  const itemRef = useRef<HTMLDivElement>(null);
   const [creationForm, setCreationForm] = useState<ICustomTweet>();
   const [isFocusButton, setFocusButton] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -42,11 +44,10 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
   const [testTweets, setTestTweets] = useState<ICustomTweet[]>([]);
 
   useEffect(() => {
-    const init = async() => {
-      if(cusomTweets){
-         setTestTweets(cusomTweets)
+    const init = async () => {
+      if (cusomTweets) {
+        setTestTweets(cusomTweets.reverse());
       }
-     
 
       anime({
         targets: wrapperRef.current,
@@ -59,19 +60,16 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
     init();
     return () => {};
   }, [cusomTweets]);
-  useEffect(() => {
-
-  }, [isFocusButton, creationForm, inputValue, testTweets]);
+  useEffect(() => {}, [isFocusButton, creationForm, inputValue, testTweets, itemRef]);
   const newVisible = (hash: string): string => {
-    if(hash){
-       const firstFourCharacters = hash.substring(0, 5);
-    const lastFourCharacters = hash.substring(hash.length - 0, hash.length - 5);
-    return `${firstFourCharacters}...${lastFourCharacters}`;
-    }else return hash
-   
+    if (hash) {
+      const firstFourCharacters = hash.substring(0, 5);
+      const lastFourCharacters = hash.substring(hash.length - 0, hash.length - 5);
+      return `${firstFourCharacters}...${lastFourCharacters}`;
+    } else return hash;
   };
   const changeHandler = (e: any, value: any) => {
-    e.preventDefault()
+    e.preventDefault();
     const date = new Date().toDateString();
     const data = new Date();
     const hour = data.getHours();
@@ -87,11 +85,42 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
 
     setCreationForm(newForm);
 
-    testTweets?.push(newForm);
+    itemRef.current?.firstElementChild?.classList.add('nnn');
+    setTimeout(() => {
+      itemRef.current?.classList.add('ttt'),
+        itemRef.current?.firstElementChild?.classList.add('mmm');
+    }, 100);
+    setTimeout(() => {
+      itemRef.current?.firstElementChild?.classList.add('mmm');
+    }, 500);
+    setTimeout(() => {
+      itemRef.current?.classList.remove('ttt'),
+        itemRef.current?.firstElementChild?.classList.remove('mmm');
+    }, 2500);
+    setTimeout(() => {
+      itemRef.current?.firstElementChild?.classList.remove('nnn');
+    }, 4000);
+
+    anime({
+      targets: itemRef.current?.firstChild,
+      position: 'absolute',
+      translateY: () => {
+        return ['-203px', '0px'];
+      },
+
+      duration: 4000,
+    });
+
+    testTweets?.unshift(newForm);
 
     setTestTweets(testTweets);
+
     addCustomTweet(e, newForm);
+    handleClear()
   };
+  const handleClear = ()=>{
+    setInputValue('');
+  }
 
   return (
     <div ref={wrapperRef} className={styles.wrapperDisconnect}>
@@ -116,8 +145,9 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
         </button>
       </div>
       <div className={styles.writeTweetWrapper}>
-        <textarea
+        <textarea value={inputValue}
           onChange={(e) => {
+            e.preventDefault();
             setInputValue(e.target.value);
           }}
           onBlur={() => {
@@ -131,13 +161,13 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
           className={styles.writeTweet}
         ></textarea>
         <button
-        type='button'
+          type="button"
           className={cn(styles.sendTweet, {
             [styles.buttonSendFocus]: isFocusButton,
           })}
           onClick={(e) => {
             // console.log(creationForm);
-e.preventDefault()
+            e.preventDefault();
             changeHandler(e, inputValue);
           }}
         ></button>
@@ -146,28 +176,30 @@ e.preventDefault()
         <h2 className={styles.tweetTitle}>
           My decentralized tweets <span className={styles.tweetTitleLine}></span>
         </h2>
-        <div className={styles.tweetsBlockWrapper}>
-        {testTweets &&
-          // testTweets.length > 0 &&
-          testTweets.map((x, i) => (
-            <div key={i} className={styles.itemWrapper}>
-             { x.authorHash !==null ?  <h3 className={styles.label}>{newVisible(x.authorHash!)}</h3>: null}
-             
-              <div className={styles.desription}>{x.text}</div>
-              <div className={styles.delimeterLine}></div>
-              <div className={styles.info}>
-                <span className={styles.time}>{x.time}</span>
-                <span className={styles.delimeterDotted}></span>
-                <span className={styles.date}>{x.date}</span>
-                <span className={styles.delimeterDotted}></span>
-                <span className={styles.ipfs}>Stored in IPFS</span>
+        <div className={styles.tweetsBlockWrapper} ref={itemRef}>
+          {testTweets &&
+            // testTweets.length > 0 &&
+            testTweets.map((x, i) => (
+              <div key={i} className={styles.itemWrapper}>
+                {x.authorHash !== null ? (
+                  <h3 className={styles.label}>{newVisible(x.authorHash!)}</h3>
+                ) : null}
+
+                <div className={styles.desription}>{x.text}</div>
+                <div className={styles.delimeterLine}></div>
+                <div className={styles.info}>
+                  <span className={styles.time}>{x.time}</span>
+                  <span className={styles.delimeterDotted}></span>
+                  <span className={styles.date}>{x.date}</span>
+                  <span className={styles.delimeterDotted}></span>
+                  <span className={styles.ipfs}>Stored in IPFS</span>
+                </div>
               </div>
-            </div>
-          ))}</div>
+            ))}
+        </div>
       </div>
       <div className={styles.footer}>
         <div className={styles.counterBlock}>
-          {/* <span className={styles.counter}>162224 </span> */}
           <span className={styles.counterLabel}>{testTweets.length} tweets crawled</span>
         </div>
         <span className={styles.footerDelimeter}></span>

@@ -30,36 +30,34 @@ export default class TwitterFeature {
     .useState(this.state)
     .declare(this.api);
 
-  async activate(): Promise<void> { 
+  async activate(): Promise<void> {
     Core.onAction(() => this.overlay.open());
 
     await this.api.initializeCurrentAccount();
 
     const { quote, post } = this.adapter.exports;
-    
+
     this.adapter.attachConfig({
       PROFILE: async (profile) => {
         const customTweets = await this.api.fetchCustomTweets('lisofffa');
-       
-      // this.api.clearCustomTweets('lisofffa')
 
-        return customTweets.map((x) =>{
-          if(!x ) return
-          else return post({
-            initial: 'DEFAULT',
-            DEFAULT: {
-              text: x.text,
-              authorFullname: profile.authorFullname,
-              authorUsername: profile.authorUsername,
-              authorImg: profile.authorImg,
-              color: { DARK: '#FFF', LIGHT: '#000' },
-              hidden:false
-            },
-            init: async (ctx, me) => {
-              // console.log(ctx);
-            }
-          })}
-        );
+        // this.api.clearCustomTweets('lisofffa');
+
+        return customTweets.map((x) => {
+          if (!x) return;
+          else
+            return post({
+              initial: 'DEFAULT',
+              DEFAULT: {
+                text: x.text,
+                authorFullname: profile.authorFullname,
+                authorUsername: profile.authorUsername,
+                authorImg: profile.authorImg,
+                color: { DARK: '#FFF', LIGHT: '#000' },
+                hidden: false,
+              },
+            });
+        });
       },
       POST: async (tweet) => {
         // backup and restore only quoted tweets
@@ -89,7 +87,7 @@ export default class TwitterFeature {
               text: restoredTweet.quote.text,
               img: restoredTweet.quote.img,
               color: { DARK: '#FFF', LIGHT: '#000' },
-              hidden:false
+              hidden: false,
             },
           }),
         ];
