@@ -11,7 +11,7 @@ This dapplet was created by the Dapplets Project Team as part of the HackFS Hack
 4. restores disabled reply/retweet functionality if disabled by twitter.
 
 # Installation
-Install the DappletsExtension to use this dapplet. Instructions can be found here:
+You need to Iinstall the DappletsExtension to use this dapplet. Instructions [can be found here](https://github.com/dapplets/tweery/blob/main/INSTALLATION.md).
 
 # Tweery and Augmented Web Paradigm
 Tweery demonstrates the idea of forced decentralization applied to an existing web-based service.
