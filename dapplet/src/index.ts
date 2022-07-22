@@ -38,10 +38,17 @@ export default class TwitterFeature {
     const { quote, post } = this.adapter.exports;
 
     this.adapter.attachConfig({
+      events: {
+        repost: (tweet, { disabled }) => {
+          if (disabled) {
+            this.overlay.open();
+          }
+        }
+      },
       PROFILE: async (profile) => {
-        const customTweets = await this.api.fetchCustomTweets('lisofffa');
+        const customTweets = await this.api.fetchCustomTweets(profile.authorUsername);
 
-        // this.api.clearCustomTweets('lisofffa');
+        // this.api.clearCustomTweets(profile.authorUsername);
 
         return customTweets.map((x) => {
           if (!x) return;
