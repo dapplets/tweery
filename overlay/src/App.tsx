@@ -36,8 +36,11 @@ const App = (props: IDappStateProps<IStorage>) => {
 
   useEffect(() => {
     const init = async () => {
-     
+      if(!userName){
+        return
+      }
      const res = await bridge.fetchCustomTweets(userName);
+     
      setCustomTweets(res)
     };
     init();
