@@ -36,12 +36,12 @@ const App = (props: IDappStateProps<IStorage>) => {
 
   useEffect(() => {
     const init = async () => {
-      if(!userName){
-        return
+      if (!userName) {
+        return;
       }
-     const res = await bridge.fetchCustomTweets(userName);
-     
-     setCustomTweets(res)
+      const res = await bridge.fetchCustomTweets(userName);
+
+      setCustomTweets(res);
     };
     init();
     return () => {};
@@ -66,7 +66,9 @@ const App = (props: IDappStateProps<IStorage>) => {
 
     setIsWaiting(true);
     const res = await bridge.addCustomTweet(userName, newTweet);
+
     setIsWaiting(false);
+    console.log(await bridge.fetchCustomTweets(userName));
   };
   const getTweet = async () => {
     setIsWaiting(true);

@@ -46,7 +46,7 @@ export default class TwitterFeature {
           }
         },
       },
-      
+
       PROFILE: async (profile) => {
         const customTweets = await this.api.fetchCustomTweets(profile.authorUsername);
         this.state.global.currentTwitterUsername.next(profile.authorUsername);
@@ -63,6 +63,8 @@ export default class TwitterFeature {
                 authorImg: profile.authorImg,
                 color: { DARK: '#FFF', LIGHT: '#000' },
                 hidden: false,
+                date: x.date,
+                time: x.time,
               },
             });
         });

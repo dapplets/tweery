@@ -1,6 +1,6 @@
 {
   "name": "tweery",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Restore banned/deleted tweets on the fly inside Twitter without breaking of UX",
   "main": "lib/index.js",
   "scripts": {
