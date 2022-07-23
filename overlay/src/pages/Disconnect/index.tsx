@@ -42,6 +42,7 @@ export const Disconnect: FC<DisconnectProps> = (props: DisconnectProps) => {
     init();
     return () => {};
   }, [cusomTweets]);
+  
   useEffect(() => {}, [isFocusButton, creationForm, inputValue, testTweets, itemRef]);
   const newVisible = (hash: string): string => {
     if (hash) {

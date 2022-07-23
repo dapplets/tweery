@@ -1,11 +1,5 @@
 {
-  "main": {
-    "network": "testnet"
-  },
-  "test": {
-    "network": "testnet"
-  },
-  "dev": {
-    "network": "testnet"
-  }
+  "main": {},
+  "test": {},
+  "dev": {}
 }
