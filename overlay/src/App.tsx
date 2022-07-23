@@ -28,24 +28,22 @@ interface IBridge {
 }
 
 const App = (props: IDappStateProps<IStorage>) => {
-  const [isWaiting, setIsWaiting] = useState(false);
-  const [cusomTweets, setCustomTweets] = useState<ICustomTweet[]>();
   const { sharedState } = props;
   const bridge = new Bridge<IBridge>();
+  const [isWaiting, setIsWaiting] = useState(false);
+  const [cusomTweets, setCustomTweets] = useState<ICustomTweet[]>();
+  const userName = sharedState.global?.currentTwitterUsername;
 
   useEffect(() => {
     const init = async () => {
-      await bridge
-        .fetchCustomTweets(props.sharedState.global?.currentTwitterUsername)
-        .then((x) => setCustomTweets(x));
-
-      if (!cusomTweets) {
+      if (!userName) {
         return;
       }
+      await bridge.fetchCustomTweets(userName).then((x) => setCustomTweets(x));
     };
     init();
     return () => {};
-  }, []);
+  }, [userName]);
 
   const handleLogIn = async (e: any) => {
     e.preventDefault();
@@ -65,15 +63,12 @@ const App = (props: IDappStateProps<IStorage>) => {
     if (!newTweet) return;
 
     setIsWaiting(true);
-    const res = await bridge.addCustomTweet(
-      props.sharedState.global?.currentTwitterUsername,
-      newTweet,
-    );
+    const res = await bridge.addCustomTweet(userName, newTweet);
     setIsWaiting(false);
   };
   const getTweet = async () => {
     setIsWaiting(true);
-    const res = await bridge.fetchCustomTweets(props.sharedState.global?.currentTwitterUsername);
+    const res = await bridge.fetchCustomTweets(userName);
 
     setIsWaiting(false);
 

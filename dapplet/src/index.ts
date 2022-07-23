@@ -47,9 +47,9 @@ export default class TwitterFeature {
         },
       },
       PROFILE: async (profile) => {
-        const customTweets = await this.api.fetchCustomTweets(profile.authorUsername);
         this.state.global.currentTwitterUsername.next(profile.authorUsername);
-        // this.api.clearCustomTweets(profile.authorUsername);
+        const customTweets = await this.api.fetchCustomTweets(profile.authorUsername);
+        this.api.clearCustomTweets(profile.authorUsername);
         return customTweets.reverse().map((x) => {
           if (!x) return;
           else
