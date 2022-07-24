@@ -7,9 +7,6 @@ import styles from './App.module.scss';
 import cn from 'classnames';
 
 interface IStorage {
-  likes: string[];
-  counter: number;
-  link: string;
   userAccount: string;
   currentTwitterUsername: string;
 }

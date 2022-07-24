@@ -1,8 +1,4 @@
 export interface IStorage {
-  likes: string[];
-  counter: number;
-  link: string;
-  isActive: boolean;
   userAccount: string;
   currentTwitterUsername:string
 }

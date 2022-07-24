@@ -1,8 +1,4 @@
 import {} from '@dapplets/dapplet-extension';
-import test_button_save_icon from './icons/test_dap_2.svg';
-import test_button_get_icon from './icons/test_dap.svg';
-import test from './icons/test_dap.png';
-import ABI from './ABI';
 import { Api } from './api';
 import { IBridge, IStorage } from './types';
 import { formatIsoToDate, waitProperty } from './helpers';
@@ -13,10 +9,6 @@ export default class TwitterFeature {
   public adapter: any;
 
   private state = Core.state<IStorage>({
-    likes: [],
-    counter: 0,
-    link: '',
-    isActive: false,
     userAccount: '',
     currentTwitterUsername: '',
   });
