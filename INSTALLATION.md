@@ -3,7 +3,7 @@
 The DappletExtension is still under development and you need to install it in the developer mode.
 
 1. Open the Google Chrome browser.
-2. Download [the Dapplet Browser Extension from here](https://github.com/dapplets/dapplet-extension/archive/refs/tags/v0.50.0-alpha.2+darkmode.zip).
+2. Download [the Dapplet Browser Extension from here](https://github.com/dapplets/dapplet-extension/releases/download/v0.50.0-alpha.2%2Bdarkmode/dapplet-extension.zip).
 
 4. Open chrome://extensions in a new tab.
 5. Switch the Developer mode on and press F5 to refresh the page.
