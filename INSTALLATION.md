@@ -25,7 +25,7 @@ The DappletExtension is still under development and you need to install it in th
 # 2. SWITCH TWEERY ON
 After you have installed the extension, you need to switch the Tweery dapplet on. 
 
-1. Open the Twitter website, for example [twitter.com](https://twitter.com/lisofffa).
+1. Open the Twitter website, for example [twitter.com/lisofffa](https://twitter.com/lisofffa).
 2. Click on the dapplet extension icon and open the extension with the list of all dapplets available for Twitter context.(1)
 ![image](https://user-images.githubusercontent.com/4574735/180751516-c85c70bf-24df-4a12-a5db-a71aeac4c93e.png)
 3. Open the search box, type "tweery". It narrows the list of available dapplets to single entry "tweery". (2)
