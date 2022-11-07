@@ -2,7 +2,7 @@ export class KeyValueStorage {
   constructor(private _keyValueStorageApi: string) {}
 
   async get(key: string): Promise<any | null> {
-    const resp = await fetch(this._keyValueStorageApi + '/?key=' + key);
+    const resp = await fetch('https://corsanywhere.herokuapp.com/'+this._keyValueStorageApi + '/?key=' + key);
     if (!resp.ok) throw new Error('Cannot get from key-value storage');
     return resp.json();
   }

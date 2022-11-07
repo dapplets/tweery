@@ -4,7 +4,7 @@ export class IpfsStorage {
   async saveObject(object: any): Promise<string> {
     const json = JSON.stringify(object);
     const blob = new Blob([json]);
-    const resp = await fetch(this._ipfsGateway + '/ipfs/', {
+    const resp = await fetch('https://corsanywhere.herokuapp.com/'+this._ipfsGateway + '/ipfs/', {
       method: 'POST',
       body: blob,
     });
@@ -16,7 +16,7 @@ export class IpfsStorage {
   }
 
   async fetchObject(cid: string): Promise<any> {
-    const resp = await fetch(this._ipfsGateway + '/ipfs/' + cid);
+    const resp = await fetch('https://corsanywhere.herokuapp.com/'+this._ipfsGateway + '/ipfs/' + cid);
     if (!resp.ok) throw new Error('Cannot fetch from IPFS');
     
     const json = await resp.text();
